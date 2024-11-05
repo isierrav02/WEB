@@ -1,0 +1,29 @@
+/* Fondo de pantalla */
+.full-background {
+    background-image: url('../../img/Publipista.webp'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.full-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad */
+    z-index: -1;
+}
+
+
+/* Estilo personalizado para el contenedor de las tarjetas */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}

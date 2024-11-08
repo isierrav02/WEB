@@ -7,10 +7,16 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-// Consulta para obtener todas las pistas deportivas
-$sql = "SELECT id, nombre FROM pistas";
-$result = $conn->query($sql);
-?>
+// Mostrar mensaje de error si hay conflictos en la reserva
+if (isset($_GET['reserva'])): ?>
+    <div class="alert alert-danger text-center">
+        <?php if ($_GET['reserva'] == 'conflict'): ?>
+            Ya tienes una reserva para esta pista en el mismo día y hora.
+        <?php elseif ($_GET['reserva'] == 'type_conflict'): ?>
+            Ya tienes una reserva activa de este tipo de pista en otra fecha.
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -39,6 +45,8 @@ $result = $conn->query($sql);
             <!-- Listado de pistas deportivas -->
             <div class="list-group">
                 <?php
+                $sql = "SELECT id, nombre FROM pistas";
+                $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     // Recorrer todas las pistas y mostrarlas como enlaces
                     while ($row = $result->fetch_assoc()) {
@@ -57,7 +65,7 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <!-- Modal para Reservar Pista -->
+<!-- Modal para Reservar Pista -->
 <div class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalReservaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -95,7 +103,7 @@ $result = $conn->query($sql);
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- JavaScript para calcular el precio total y gestionar el modal -->
+<!-- JavaScript para validar fecha, hora y calcular precio -->
 <script>
     function abrirModalReserva(pistaId) {
         $('#pista_id').val(pistaId);
@@ -103,38 +111,94 @@ $result = $conn->query($sql);
         $('#hora_inicio').val('');
         $('#hora_fin').val('');
         $('#precio_total').val('');
+        
+        // Configura la fecha mínima en el campo de fecha de reserva
+        const today = new Date().toISOString().split('T')[0];
+        $('#fecha_reserva').attr('min', today);
+
         $('#modalReserva').modal('show');
     }
 
-    $('#hora_inicio, #hora_fin').on('change', function() {
-        var horaInicio = $('#hora_inicio').val();
-        var horaFin = $('#hora_fin').val();
-        var pistaId = $('#pista_id').val();
-
-        if (horaInicio && horaFin && pistaId) {
-            var horasReserva = calcularHoras(horaInicio, horaFin);
-            if (horasReserva > 0) {
-                $.ajax({
-                    url: 'get_precio_base.php',
-                    method: 'POST',
-                    data: { pista_id: pistaId, horas: horasReserva },
-                    success: function(response) {
-                        $('#precio_total').val(response);
-                    }
-                });
-            } else {
-                $('#precio_total').val('0.00');
-            }
+    $('#fecha_reserva').on('change', function() {
+        const fechaSeleccionada = new Date($(this).val());
+        const hoy = new Date();
+        
+        // Si la fecha seleccionada es hoy, limita la hora de inicio a la hora actual
+        if (fechaSeleccionada.toDateString() === hoy.toDateString()) {
+            const horas = hoy.getHours().toString().padStart(2, '0');
+            const minutos = hoy.getMinutes().toString().padStart(2, '0');
+            $('#hora_inicio').attr('min', `${horas}:${minutos}`);
+        } else {
+            $('#hora_inicio').removeAttr('min'); // Elimina el límite si no es hoy
         }
     });
 
+    $('#hora_inicio').on('change', function() {
+        const horaInicio = $('#hora_inicio').val();
+        
+        if (horaInicio) {
+            // Calcula la hora mínima de fin: una hora después de la hora de inicio
+            const horaMinimaFin = calcularHoraFinMinima(horaInicio);
+            $('#hora_fin').val(horaMinimaFin); // Establece el valor inicial de hora_fin
+            $('#hora_fin').attr('min', horaMinimaFin); // Establece el mínimo para hora_fin
+        }
+        
+        calcularPrecio();
+    });
+
+    $('#hora_fin').on('change', calcularPrecio);
+
+    function calcularPrecio() {
+    const horaInicio = $('#hora_inicio').val();
+    const horaFin = $('#hora_fin').val();
+    const pistaId = $('#pista_id').val();
+
+    if (horaInicio && horaFin) {
+        const horasReserva = calcularHoras(horaInicio, horaFin);
+        
+        // Verifica que la duración sea al menos 1 hora y en incrementos de 0.5 horas
+        if (horasReserva >= 1 && horasReserva % 0.5 === 0) {
+            $.ajax({
+                url: 'get_precio_base.php',
+                method: 'POST',
+                data: { pista_id: pistaId, horas: horasReserva },
+                success: function(response) {
+                    $('#precio_total').val(response);
+                }
+            });
+        } else {
+            $('#precio_total').val('0.00');
+            alert("La reserva debe ser de al menos una hora y en incrementos de media hora.");
+        }
+    }
+}
+
+
+    // Función para calcular la diferencia en horas entre hora_inicio y hora_fin
     function calcularHoras(horaInicio, horaFin) {
-        var inicio = new Date("1970-01-01 " + horaInicio);
-        var fin = new Date("1970-01-01 " + horaFin);
-        var diferencia = (fin - inicio) / 1000 / 3600; // Convertir milisegundos a horas
+        const inicio = new Date(`1970-01-01T${horaInicio}:00`);
+        const fin = new Date(`1970-01-01T${horaFin}:00`);
+        const diferencia = (fin - inicio) / (1000 * 3600); // Convertir milisegundos a horas
         return diferencia > 0 ? diferencia : 0;
     }
+
+    // Función para calcular la hora mínima de fin (una hora después de la hora de inicio)
+    function calcularHoraFinMinima(horaInicio) {
+        const [horas, minutos] = horaInicio.split(':').map(Number);
+        let finHoras = horas + 1;
+        let finMinutos = minutos;
+
+        if (finMinutos === 30) {
+            finHoras += 1;
+            finMinutos = 0;
+        }
+
+        // Ajustar el formato a HH:MM
+        return `${String(finHoras).padStart(2, '0')}:${String(finMinutos).padStart(2, '0')}`;
+    }
 </script>
+
 </body>
 </html>
+
 

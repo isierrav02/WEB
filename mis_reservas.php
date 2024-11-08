@@ -31,6 +31,8 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="bootstrap/css/miestilo.css" />
+    <script src="jquery/jquery-3.7.1.min.js"></script>
+    <script src="js/miscript.js"></script>
 </head>
 <body class="full-background d-flex align-items-center justify-content-center vh-100">
     <div class="container text-center">

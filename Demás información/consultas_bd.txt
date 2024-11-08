@@ -1,0 +1,32 @@
+-- Antes de realizar una reserva, debes asegurarte de que no hay otra reserva para la misma pista en la misma franja horaria.
+SELECT * FROM reservas
+WHERE pista_id = :pista_id
+  AND fecha_reserva = :fecha_reserva
+  AND hora_inicio < :hora_fin
+  AND hora_fin > :hora_inicio;
+
+-- Para evitar que el usuario reserve la misma pista de un mismo tipo sin haber usado la anterior, se puede hacer una validación antes de la inserción.
+SELECT * FROM reservas
+WHERE usuario_id = usuario_id
+  AND pista_id IN (SELECT id FROM pistas WHERE tipo = :tipo_pista)
+  AND fecha_reserva > CURDATE();
+
+-- Puedes permitir que los usuarios eliminen o modifiquen sus reservas si lo necesitan.
+DELETE FROM reservas WHERE id = :reserva_id;
+UPDATE reservas
+SET fecha_reserva = nueva_fecha, hora_inicio = nueva_hora_inicio, hora_fin = nueva_hora_fin
+WHERE id = :reserva_id;
+
+-- Consultar tarifas totales basadas en las horas reservadas
+SELECT 
+    r.usuario_id, 
+    r.pista_id, 
+    p.nombre AS pista_nombre, 
+    r.fecha_reserva, 
+    r.hora_inicio, 
+    r.hora_fin, 
+    TIMESTAMPDIFF(HOUR, r.hora_inicio, r.hora_fin) AS numero_horas, 
+    p.precio_base, 
+    (p.precio_base * TIMESTAMPDIFF(HOUR, r.hora_inicio, r.hora_fin)) AS tarifa_total
+FROM reservas r
+JOIN pistas p ON r.pista_id = p.id;

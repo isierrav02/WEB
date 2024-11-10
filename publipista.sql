@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2024 a las 21:07:30
+-- Tiempo de generación: 10-11-2024 a las 23:01:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -26,6 +26,32 @@ USE `publipista`;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `fotos_pistas`
+--
+
+CREATE TABLE `fotos_pistas` (
+  `id` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `pista_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `fotos_pistas`
+--
+
+INSERT INTO `fotos_pistas` (`id`, `url`, `descripcion`, `pista_id`) VALUES
+(1, 'img/pista-tenis1.jpg', 'Pista de tenis 1', 1),
+(2, 'img/pista-padel1.jpg', 'Pista de pádel 1', 2),
+(3, 'img/pista-futbol7.jpg', 'Pista de fútbol 7', 3),
+(4, 'img/cancha-baloncesto1.jpg', 'Cancha de baloncesto 1', 4),
+(5, 'img/pista-tenis2.jpg', 'Pista de tenis 2', 5),
+(6, 'img/pista-padel2.jpg', 'Pista de pádel 2', 6),
+(7, 'img/campo-futbol11.jpg', 'Campo de fútbol 11', 7);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pistas`
 --
 
@@ -44,13 +70,12 @@ CREATE TABLE `pistas` (
 INSERT INTO `pistas` (`id`, `nombre`, `tipo`, `ubicacion`, `precio_base`) VALUES
 (1, 'Pista de tenis 1', 'tenis', 'Calle Sol, 10', 15.00),
 (2, 'Pista de padel 1', 'padel', 'Avenida Luna, 5', 12.00),
-(3, 'Pista de futbol 7 (1)', 'futbol_7', 'Plaza Estadio, s/n', 25.00),
+(3, 'Pista de futbol 7 ', 'futbol_7', 'Plaza Estadio, s/n', 25.00),
 (4, 'Cancha de baloncesto 1', 'baloncesto', 'Calle Estrella, 15', 20.00),
 (5, 'Pista de tenis 2', 'tenis', 'Calle Sol, 12', 15.00),
 (6, 'Pista de padel 2', 'padel', 'Avenida Luna, 7', 12.00),
 (7, 'Pista de futbol 11', 'futbol_11', 'Plaza Mayor, 20', 35.00),
-(8, 'Cancha de baloncesto 2', 'baloncesto', 'Calle Estadio, 22', 20.00),
-(9, 'Pista de futbol 7 (2)', 'futbol_7', 'Calle Campos, 1', 25.00);
+(8, 'Cancha de baloncesto 2', 'baloncesto', 'Calle Estadio, 22', 20.00);
 
 -- --------------------------------------------------------
 
@@ -68,6 +93,13 @@ CREATE TABLE `reservas` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `precio_total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`id`, `usuario_id`, `pista_id`, `fecha_reserva`, `hora_inicio`, `hora_fin`, `fecha_creacion`, `precio_total`) VALUES
+(17, 1, 1, '2024-11-09', '11:00:00', '12:03:00', '2024-11-08 21:49:12', 15.75);
 
 -- --------------------------------------------------------
 
@@ -97,6 +129,13 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `telefono`, `contr
 --
 
 --
+-- Indices de la tabla `fotos_pistas`
+--
+ALTER TABLE `fotos_pistas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pista` (`pista_id`);
+
+--
 -- Indices de la tabla `pistas`
 --
 ALTER TABLE `pistas`
@@ -122,6 +161,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `fotos_pistas`
+--
+ALTER TABLE `fotos_pistas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `pistas`
 --
 ALTER TABLE `pistas`
@@ -131,7 +176,7 @@ ALTER TABLE `pistas`
 -- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -142,6 +187,12 @@ ALTER TABLE `usuarios`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `fotos_pistas`
+--
+ALTER TABLE `fotos_pistas`
+  ADD CONSTRAINT `fk_pista` FOREIGN KEY (`pista_id`) REFERENCES `pistas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `reservas`

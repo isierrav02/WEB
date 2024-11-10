@@ -4,26 +4,101 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh; 
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Carrusel con altura reducida */
+.carousel-inner img {
+    height: 500px; /* Reduce la altura del carrusel */
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Estilo para la descripción del carrusel */
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    padding: 10px 20px;
+    border-radius: 8px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.carousel-caption p {
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Estilo para el contenedor de reserva superpuesto en el carrusel */
+.reserva-container {
+    text-align: center;
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente para destacar el botón */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.reserva-container:hover {
+    transform: scale(1.05);
+}
+
+/* Botón estilizado para reservas */
+.btn-reserva {
+    display: inline-block;
+    color: #ffffff;
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    padding: 12px 24px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 50px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    text-decoration: none;
+}
+
+.btn-reserva i {
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+/* Efecto hover para el botón */
+.btn-reserva:hover {
+    background-color: #ffffff;
+    color: #0056b3; /* Cambia al color principal del fondo */
+    border-color: #ffffff;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    padding: 1rem 2rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto; /* Empuja el footer hacia el final */
 }
 
-.full-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad */
-    z-index: -1;
+footer img {
+    height: 60px;
+    width: 60px;
 }
 
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 1rem;
+    transition: color 0.3s ease;
+}
 
-/* Estilo personalizado para el contenedor de las tarjetas */
-.card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+footer a:hover {
+    color: #ddd;
 }

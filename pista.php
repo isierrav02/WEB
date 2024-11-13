@@ -1,59 +1,27 @@
 <?php
-session_start();
 include 'publipistaBD.php';
 
-if (isset($_SESSION['email'])) {
-    header("Location: pistas.php");
-    exit();
-}
-
-$error = ""; // Variable para almacenar el mensaje de error
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['login'])) {
-        $email = $_POST['email'];
-        $contrasena = $_POST['contrasena'];
-        $sql = "SELECT * FROM usuarios WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            if (password_verify($contrasena, $user['contrasena'])) {
-                $_SESSION['email'] = $email;
-                header("Location: pistas.php");
-                exit();
-            } else {
-                $error = "Contraseña incorrecta.";
-            }
-        } else {
-            $error = "Usuario no encontrado.";
-        }
-    }
-}
-
-// Consulta para obtener las URLs y descripciones de las imágenes de las 9 pistas
-$sql = "SELECT url, descripcion FROM fotos_pistas WHERE pista_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9)";
+// Consulta a la base de datos para obtener los datos necesarios de las pistas y sus imágenes
+$sql = "SELECT p.id, p.nombre AS titulo, p.ubicacion, p.precio_base, fp.url AS imagen, fp.descripcion 
+        FROM pistas p 
+        LEFT JOIN fotos_pistas fp ON p.id = fp.pista_id";
 $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio | Publipista</title>
+    <title>Pistas | Publipista</title>
     <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/miestilo.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="bootstrap/css/pista.css" />
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="miscript.js"></script>
 </head>
-
-<body>
+<body class="bg-dark text-white">
     <!-- Header -->
     <header class="bg-dark text-light w-100">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -68,10 +36,10 @@ $result = $conn->query($sql);
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-light">Inicio</a>
+                            <a href="index.php" class="nav-link text-light">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pista.php" class="nav-link text-light">Pistas</a>
+                            <a href="#" class="nav-link text-light">Pistas</a>
                         </li>
                         <li class="nav-item">
                             <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i class="bi bi-facebook"></i></a>
@@ -90,40 +58,35 @@ $result = $conn->query($sql);
             </div>
         </nav>
     </header>
+    <!-- Contenido principal -->
+    <div class="container p-2">
+        <?php while ($pista = $result->fetch_assoc()): ?>
+            <div class="row position-relative mb-4">
+                <!-- Fondo difuminado de la imagen -->
+                <div class="imagenDifuminada" style="background-image: url('<?php echo $pista['imagen']; ?>');"></div>
 
-    <!-- Carrusel de Imágenes -->
-    <section id="carouselPistas" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <?php
-            $active = true; // Variable para definir el primer elemento como "active"
-            while ($foto = $result->fetch_assoc()): ?>
-                <div class="carousel-item <?php echo $active ? 'active' : ''; ?>">
-                    <img src="<?php echo htmlspecialchars($foto['url']); ?>" class="d-block w-100" alt="Pista">
-                    <div class="carousel-caption d-none d-md-block">
-                        <p><?php echo htmlspecialchars($foto['descripcion']); ?></p>
-                    </div>
+                <!-- Imagen circular y contenido de la pista -->
+                <div class="col-3 position-relative">
+                    <img class="imagenDescubre" src="<?php echo $pista['imagen']; ?>" alt="Imagen de <?php echo htmlspecialchars($pista['titulo']); ?>">
                 </div>
-                <?php
-                $active = false; // Solo el primer elemento será "active"
-            endwhile; ?>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPistas" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselPistas" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-
-        <!-- Botón para Reservas centrado en el carrusel -->
-        <div class="reserva-container position-absolute top-50 start-50 translate-middle">
-            <a href="#" class="btn-reserva" data-bs-toggle="modal" data-bs-target="#loginModal">
-                <i class="bi bi-calendar-check me-2"></i> Reservar Pistas
-            </a>
-        </div>
-    </section>
-
+                <div class="col-6 text-white">
+                    <h4 class="fw-bold"><?php echo htmlspecialchars($pista['titulo']); ?></h4>
+                    <p>Ubicación: <?php echo htmlspecialchars($pista['ubicacion']); ?></p>
+                    <p>Precio Base: <?php echo htmlspecialchars($pista['precio_base']); ?> €/hora</p>
+                    <p><?php echo htmlspecialchars($pista['descripcion']); ?></p>
+                </div>
+                
+                <!-- Botón "Más información" -->
+                <div class="col-3 position-relative">
+                    <a href="detalle_pista.php?id=<?php echo $pista['id']; ?>">
+                        <button class="btn border-outline-rojo rounded-pill position-absolute top-50 translate-middle-y border-0">
+                            Más información
+                        </button>
+                    </a>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
     <!-- Modal de Inicio de Sesión -->
     <section class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -230,5 +193,4 @@ $result = $conn->query($sql);
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

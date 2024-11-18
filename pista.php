@@ -39,9 +39,6 @@ $result = $conn->query($sql);
                             <a href="index.php" class="nav-link text-light">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-light">Pistas</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i class="bi bi-facebook"></i></a>
                         </li>
                         <li class="nav-item">

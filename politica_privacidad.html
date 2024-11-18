@@ -1,26 +1,9 @@
-<?php
-session_start();
-include 'publipistaBD.php';
-
-if (!isset($_SESSION['email'])) {
-    header("Location: index.php");
-    exit();
-}
-
-// Consulta para obtener los datos de las pistas
-$sql = "SELECT p.id, p.nombre, p.precio_base, fp.url AS imagen 
-        FROM pistas p 
-        LEFT JOIN fotos_pistas fp ON p.id = fp.pista_id 
-        LIMIT 8";
-$result = $conn->query($sql);
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pistas | Publipista</title>
+    <title>Política de Privacidad | Publipista</title>
     <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
@@ -31,7 +14,7 @@ $result = $conn->query($sql);
     <header class="bg-dark text-light w-100">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a href="pistas.php" class="navbar-brand d-flex align-items-center">
+                <a href="politica_privacidad.html" class="navbar-brand d-flex align-items-center">
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
@@ -40,34 +23,35 @@ $result = $conn->query($sql);
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a href="mis_reservas.php" class="nav-link text-light">Mis Reservas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="logout.php" class="nav-link text-light">Cerrar Sesión</a>
-                        </li>
+                        <li class="nav-item"><a href="index.php" class="nav-link text-light">Inicio</a></li>
+                        <li class="nav-item"><a href="pistas.php" class="nav-link text-light">Reservar Pistas</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Contenido principal con las imágenes de las pistas -->
+    <!-- Contenido principal -->
     <main class="container my-5">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-            <?php while ($pista = $result->fetch_assoc()): ?>
-                <div class="col">
-                    <div class="card h-100 bg-dark text-light pista-card">
-                        <div class="pista-img-container">
-                            <img src="<?php echo htmlspecialchars($pista['imagen']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($pista['nombre']); ?>" style="cursor: pointer;" onclick="abrirModalReserva(<?php echo $pista['id']; ?>, <?php echo $pista['precio_base']; ?>)">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($pista['nombre']); ?></h5>
-                            <p class="card-text">Precio: <?php echo htmlspecialchars($pista['precio_base']); ?> €/hora</p>
-                        </div>
-                    </div>
-                </div>
-            <?php endwhile; ?>
+        <div class="bg-secondary text-light p-5 rounded shadow-lg">
+            <h2 class="text-center mb-4">Política de Privacidad</h2>
+            <p><strong>Introducción</strong></p>
+            <p>En Publipista valoramos tu privacidad y estamos comprometidos a proteger tus datos personales. Esta política explica cómo recopilamos, usamos y protegemos tu información.</p>
+
+            <p><strong>Recopilación de Datos</strong></p>
+            <p>Recopilamos información personal que nos proporcionas al registrarte, como tu nombre, correo electrónico y detalles de contacto. También obtenemos datos de uso y cookies para mejorar nuestros servicios.</p>
+
+            <p><strong>Uso de la Información</strong></p>
+            <p>Usamos tus datos para procesar tus reservas y mejorar nuestra plataforma. No compartimos tu información con terceros sin tu consentimiento, excepto cuando sea necesario para cumplir con la ley.</p>
+
+            <p><strong>Derechos del Usuario</strong></p>
+            <p>Tienes derecho a acceder, rectificar o eliminar tus datos personales en cualquier momento. Para ello, contáctanos a través de los medios indicados en esta página.</p>
+
+            <p><strong>Seguridad</strong></p>
+            <p>Implementamos medidas de seguridad para proteger tus datos. Sin embargo, recuerda que ninguna transmisión de datos por internet es completamente segura.</p>
+
+            <p><strong>Cambios en la Política</strong></p>
+            <p>Nos reservamos el derecho de modificar esta política en cualquier momento. Te notificaremos cualquier cambio publicando la nueva política en nuestro sitio.</p>
         </div>
     </main>
 
@@ -91,6 +75,5 @@ $result = $conn->query($sql);
     </footer>
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="js/miscript.js"></script>
 </body>
 </html>

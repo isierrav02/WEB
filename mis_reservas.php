@@ -73,8 +73,8 @@ $result = $stmt->get_result();
     <header class="bg-dark text-light w-100">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a href="index.php" class="navbar-brand d-flex align-items-center">
-                    <img src="img/logo.webp" alt="Logo" width="40" height="40" class="me-2">
+                <a href="mis_reservas.php" class="navbar-brand d-flex align-items-center">
+                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -147,16 +147,16 @@ $result = $stmt->get_result();
     <footer class="bg-dark text-light p-3 mt-auto w-100">
         <div class="container">
             <div class="row text-center text-lg-start">
-                <div class="col-lg-4 mb-3 mb-lg-0">
-                    <img src="img/logo.webp" alt="Logo" width="40" height="40">
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0" >
+                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
-                <div class="col-lg-4 mb-3 mb-lg-0">
-                    <img src="img/central_image.jpg" alt="Imagen central" width="100" height="40">
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
+                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40"> Ayuntamiento de Puebla del Prior
                 </div>
-                <div class="col-lg-4">
-                    <a href="politica_privacidad.php" class="text-light d-block mb-1">Política de Privacidad</a>
-                    <a href="politica_cookies.php" class="text-light d-block mb-1">Política de Cookies</a>
-                    <a href="terminos_condiciones.php" class="text-light d-block">Términos y Condiciones</a>
+                <div class="col-lg-4 h5 m-0">
+                    <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
+                    <a href="politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
+                    <a href="terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
                 </div>
             </div>
         </div>

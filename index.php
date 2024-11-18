@@ -49,8 +49,6 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/css/miestilo.css">
-    <script src="jquery/jquery-3.7.1.min.js"></script>
-    <script src="miscript.js"></script>
 </head>
 
 <body>

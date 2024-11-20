@@ -23,8 +23,8 @@ $result = $conn->query($sql);
     <title>Pistas | Publipista</title>
     <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="bootstrap/css/miestilo.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/miestilo.css" />
 </head>
 <body class="full-background d-flex flex-column min-vh-100">
     <!-- Header -->
@@ -71,6 +71,38 @@ $result = $conn->query($sql);
         </div>
     </main>
 
+    <!-- Modal de Reserva -->
+    <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservaModalLabel">Reservar Pista</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formReserva" action="mis_reservas.php" method="post">
+                        <!-- Campo oculto para el ID de la pista -->
+                        <input type="hidden" name="pista_id" id="pista_id">
+                        <input type="hidden" id="precio_base" name="precio_base">
+                        <div class="mb-3">
+                            <label for="fecha_reserva" class="form-label">Fecha de Reserva:</label>
+                            <input type="date" id="fecha_reserva" name="fecha_reserva" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="hora_inicio" class="form-label">Hora de Inicio:</label>
+                            <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="hora_fin" class="form-label">Hora de Fin:</label>
+                            <input type="time" id="hora_fin" name="hora_fin" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Reservar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-dark text-light p-3 mt-auto w-100">
         <div class="container">
@@ -90,7 +122,7 @@ $result = $conn->query($sql);
         </div>
     </footer>
 
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="js/miscript.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="miscript.js"></script>
 </body>
 </html>

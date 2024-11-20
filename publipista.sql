@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2024 a las 23:01:26
+-- Tiempo de generación: 20-11-2024 a las 18:39:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,7 +47,8 @@ INSERT INTO `fotos_pistas` (`id`, `url`, `descripcion`, `pista_id`) VALUES
 (4, 'img/cancha-baloncesto1.jpg', 'Cancha de baloncesto 1', 4),
 (5, 'img/pista-tenis2.jpg', 'Pista de tenis 2', 5),
 (6, 'img/pista-padel2.jpg', 'Pista de pádel 2', 6),
-(7, 'img/campo-futbol11.jpg', 'Campo de fútbol 11', 7);
+(7, 'img/campo-futbol11.jpg', 'Campo de fútbol 11', 7),
+(8, 'img/cancha-baloncesto2.jpg', 'Cancha de baloncesto 2', 8);
 
 -- --------------------------------------------------------
 
@@ -99,7 +100,7 @@ CREATE TABLE `reservas` (
 --
 
 INSERT INTO `reservas` (`id`, `usuario_id`, `pista_id`, `fecha_reserva`, `hora_inicio`, `hora_fin`, `fecha_creacion`, `precio_total`) VALUES
-(17, 1, 1, '2024-11-09', '11:00:00', '12:03:00', '2024-11-08 21:49:12', 15.75);
+(18, 1, 1, '2024-11-22', '18:00:00', '19:30:00', '2024-11-18 23:45:46', 22.50);
 
 -- --------------------------------------------------------
 
@@ -164,7 +165,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `fotos_pistas`
 --
 ALTER TABLE `fotos_pistas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pistas`
@@ -176,7 +177,7 @@ ALTER TABLE `pistas`
 -- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

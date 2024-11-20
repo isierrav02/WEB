@@ -64,8 +64,8 @@ $result = $stmt->get_result();
     <title>Mis Reservas | Publipista</title>
     <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="bootstrap/css/miestilo.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/miestilo.css" />
 </head>
 
 <body class="full-background d-flex flex-column min-vh-100">
@@ -162,7 +162,7 @@ $result = $stmt->get_result();
         </div>
     </footer>
 
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

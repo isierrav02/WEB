@@ -2,9 +2,6 @@
 session_start();
 include 'publipistaBD.php';
 
-$error = "";
-$response = ["success" => false];
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
@@ -20,8 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $error = "El email ya está registrado.";
-        $response["error"] = $error;
+        // Redirigir a index.php con el mensaje de error
+        header("Location: index.php?error=" . urlencode("El email ya está registrado."));
+        exit();
     } else {
         // Insertar el nuevo usuario en la base de datos
         $sql = "INSERT INTO usuarios (nombre, apellidos, email, telefono, contrasena) VALUES (?, ?, ?, ?, ?)";
@@ -31,19 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt->execute()) {
             $_SESSION['email'] = $email;
 
-            // Guardar los datos en el archivo usuarios.txt
+            // Guardar datos en el archivo de texto usuarios.txt
             $file_path = 'usuarios.txt';
             $user_data = "$nombre,$apellidos,$email,$telefono" . PHP_EOL;
-
             file_put_contents($file_path, $user_data, FILE_APPEND);
 
-            // Redirigir a pistas.php después de registrarse
-            $response["success"] = true;
+            // Redirigir a pistas.php si el registro fue exitoso
+            header("Location: pistas.php");
+            exit();
         } else {
-            $error = "Error al registrar el usuario.";
-            $response["error"] = $error;
+            // Enviar mensaje de error en caso de fallo al registrar
+            header("Location: index.php?error=" . urlencode("Error al registrar el usuario."));
+            exit();
         }
     }
-
-    echo json_encode($response);
 }

@@ -1,25 +1,3 @@
-document.getElementById('formRegistro').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitar el envío normal del formulario
-
-    const formData = new FormData(this);
-
-    fetch('procesar_registro.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Registro exitoso');
-            $('#registroModal').modal('hide'); // Cerrar el modal
-            window.location.href = 'pistas.php'; // Redirigir a la página de pistas
-        } else {
-            alert('Error en el registro: ' + data.error);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
-
 // Función para abrir el modal de reserva y asignar el ID y precio de la pista seleccionada
 function abrirModalReserva(pistaId, precioBase) {
     document.getElementById('pista_id').value = pistaId;

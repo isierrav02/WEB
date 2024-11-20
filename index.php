@@ -7,6 +7,19 @@ if (isset($_SESSION['email'])) {
     exit();
 }
 
+// Mostrar mensaje de error si existe
+if (isset($_GET['error'])) {
+    $error = htmlspecialchars($_GET['error']);
+    echo "<script>
+        alert('$error');
+        // Limpiar el parámetro de error de la URL
+        if (history.replaceState) {
+            const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            history.replaceState(null, '', newUrl);
+        }
+    </script>";
+}
+
 $error = ""; // Variable para almacenar el mensaje de error
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -189,8 +202,7 @@ $result = $conn->query($sql);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario de registro -->
-                    <form id="formRegistro" action="procesar_registro.php" method="POST">
+                    <form id="formRegistro" method="POST" action="procesar_registro.php">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
                             <input type="text" id="nombre" name="nombre" class="form-control" required>

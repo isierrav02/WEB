@@ -73,7 +73,8 @@ $result = $conn->query($sql);
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -85,7 +86,8 @@ $result = $conn->query($sql);
                             <a href="pista.php" class="nav-link text-light">Pistas</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i
+                                    class="bi bi-facebook"></i></a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link text-light"><i class="bi bi-twitter"></i></a>
@@ -94,7 +96,8 @@ $result = $conn->query($sql);
                             <a href="" class="nav-link text-light"><i class="bi bi-instagram"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                            <a href="#" class="nav-link text-light" data-bs-toggle="modal"
+                                data-bs-target="#loginModal"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -186,7 +189,8 @@ $result = $conn->query($sql);
                         <button type="submit" name="login" class="btn btn-primary w-100">Entrar</button>
                     </form>
                     <p class="text-center mt-3">
-                        ¿Aún no tienes cuenta? <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#registroModal" data-bs-dismiss="modal">Regístrate aquí</a>
+                        ¿Aún no tienes cuenta? <a href="#" class="text-primary" data-bs-toggle="modal"
+                            data-bs-target="#registroModal" data-bs-dismiss="modal">Regístrate aquí</a>
                     </p>
                 </div>
             </div>
@@ -194,7 +198,8 @@ $result = $conn->query($sql);
     </section>
 
     <!-- Modal de Registro -->
-    <section class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+    <section class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -203,6 +208,7 @@ $result = $conn->query($sql);
                 </div>
                 <div class="modal-body">
                     <form id="formRegistro" method="POST" action="procesar_registro.php">
+                        <input type="hidden" name="source" value="index"> <!-- Identificador de la página -->
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
                             <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -234,11 +240,12 @@ $result = $conn->query($sql);
     <footer class="bg-dark text-light p-3 mt-auto w-100">
         <div class="container">
             <div class="row text-center text-lg-center">
-                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0" >
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40"> Ayuntamiento de Puebla del Prior
+                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
                     <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>

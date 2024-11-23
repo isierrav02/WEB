@@ -2,27 +2,75 @@
 session_start();
 include 'publipistaBD.php';
 
+// Asegurarse de que el usuario está logueado
 if (!isset($_SESSION['email'])) {
     header("Location: index.php");
     exit();
 }
 
+// Obtener el ID del usuario logueado a partir del email
+$email = $conn->real_escape_string($_SESSION['email']);
+$sql_usuario = "SELECT id FROM usuarios WHERE email = '$email'";
+$result = $conn->query($sql_usuario);
+$usuario = $result->fetch_assoc();
+$usuario_id = $usuario['id'];
+
+// Limpiar automáticamente las reservas pasadas
+$fecha_hora_actual = date("Y-m-d H:i:s");
+$sql_limpieza = "DELETE FROM reservas WHERE CONCAT(fecha_reserva, ' ', hora_fin) <= '$fecha_hora_actual'";
+$conn->query($sql_limpieza);
+
 // Procesar formulario de reserva
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fecha_reserva'], $_POST['hora_inicio'], $_POST['hora_fin'], $_POST['precio_base'])) {
-    $email = $_SESSION['email'];
-    $pista_id = $_POST['pista_id'];
-    $fecha_reserva = $_POST['fecha_reserva'];
-    $hora_inicio = $_POST['hora_inicio'];
-    $hora_fin = $_POST['hora_fin'];
+    $pista_id = (int) $_POST['pista_id'];
+    $fecha_reserva = $conn->real_escape_string($_POST['fecha_reserva']);
+    $hora_inicio = $conn->real_escape_string($_POST['hora_inicio']);
+    $hora_fin = $conn->real_escape_string($_POST['hora_fin']);
     $precio_base = (float) $_POST['precio_base'];
 
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $usuario = $result->fetch_assoc();
-    $usuario_id = $usuario['id'];
+    // Verificar si ya existe una reserva idéntica en la fecha y pista para el usuario
+    $sql_verificar_existente = "SELECT * FROM reservas 
+                                WHERE usuario_id = $usuario_id 
+                                AND pista_id = $pista_id 
+                                AND fecha_reserva = '$fecha_reserva'";
+    $result_existente = $conn->query($sql_verificar_existente);
 
+    if ($result_existente->num_rows > 0) {
+        echo "<script>alert('Ya tienes una reserva para esta pista en la fecha seleccionada.'); window.history.back();</script>";
+        exit();
+    }
+
+    // Verificar si el usuario tiene otra reserva en el mismo horario en cualquier pista
+    $sql_verificar_usuario = "SELECT * FROM reservas 
+                              WHERE usuario_id = $usuario_id 
+                              AND fecha_reserva = '$fecha_reserva' 
+                              AND (
+                                  (hora_inicio < '$hora_fin' AND hora_fin > '$hora_inicio') OR 
+                                  (hora_inicio < '$hora_inicio' AND hora_fin > '$hora_fin')
+                              )";
+    $result_usuario = $conn->query($sql_verificar_usuario);
+
+    if ($result_usuario->num_rows > 0) {
+        echo "<script>alert('Ya tienes una reserva en el mismo horario.'); window.history.back();</script>";
+        exit();
+    }
+
+    // Verificar si la pista ya está reservada en el mismo horario por otro usuario
+    $sql_verificar_pista = "SELECT * FROM reservas 
+                            WHERE pista_id = $pista_id 
+                            AND fecha_reserva = '$fecha_reserva' 
+                            AND (
+                                (hora_inicio < '$hora_fin' AND hora_fin > '$hora_inicio') OR 
+                                (hora_inicio < '$hora_inicio' AND hora_fin > '$hora_fin')
+                            )";
+    $result_pista = $conn->query($sql_verificar_pista);
+
+    if ($result_pista->num_rows > 0) {
+        echo "<script>alert('Esta pista ya está reservada en el horario seleccionado.'); window.history.back();</script>";
+        exit();
+    }
+
+    // Calcular el precio total en base a la duración de la reserva
     $inicio = new DateTime($hora_inicio);
     $fin = new DateTime($hora_fin);
     $duracion = $inicio->diff($fin);
@@ -30,29 +78,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
     $minutos = $duracion->i;
     $precio_total = $precio_base * ($horas + $minutos / 60);
 
-    $stmt = $conn->prepare("INSERT INTO reservas (usuario_id, pista_id, fecha_reserva, hora_inicio, hora_fin, precio_total) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("iisssd", $usuario_id, $pista_id, $fecha_reserva, $hora_inicio, $hora_fin, $precio_total);
+    // Insertar la reserva si no hay conflictos
+    $sql_insertar = "INSERT INTO reservas (usuario_id, pista_id, fecha_reserva, hora_inicio, hora_fin, precio_total, fecha_creacion) 
+                     VALUES ($usuario_id, $pista_id, '$fecha_reserva', '$hora_inicio', '$hora_fin', $precio_total, NOW())";
 
-    if ($stmt->execute()) {
+    if ($conn->query($sql_insertar) === TRUE) {
         header("Location: mis_reservas.php");
         exit();
     } else {
-        echo "Error al realizar la reserva: " . $stmt->error;
+        echo "Error al realizar la reserva: " . $conn->error;
     }
 }
-
-// Consulta de reservas del usuario
-$email = $_SESSION['email'];
-$sql = "SELECT p.nombre AS pista, r.fecha_reserva, r.hora_inicio, r.hora_fin, r.precio_total 
-        FROM reservas r
-        JOIN pistas p ON r.pista_id = p.id
-        JOIN usuarios u ON r.usuario_id = u.id
-        WHERE u.email = ?
-        ORDER BY r.fecha_reserva DESC, r.hora_inicio DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -146,12 +182,13 @@ $result = $stmt->get_result();
     <!-- Footer -->
     <footer class="bg-dark text-light p-3 mt-auto w-100">
         <div class="container">
-            <div class="row text-center text-lg-start">
-                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0" >
+            <div class="row text-center text-lg-center">
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40"> Ayuntamiento de Puebla del Prior
+                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
                     <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>

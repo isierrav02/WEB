@@ -1,15 +1,35 @@
 <?php
+session_start();
 include 'publipistaBD.php';
 
 // Consulta a la base de datos para obtener los datos necesarios de las pistas y sus imágenes
 $sql = "SELECT p.id, p.nombre AS titulo, p.ubicacion, p.precio_base, fp.url AS imagen, fp.descripcion 
         FROM pistas p 
         LEFT JOIN fotos_pistas fp ON p.id = fp.pista_id";
-$result = $conn->query($sql);
+$result = $conn->query(query: $sql);
+
+if (isset($_SESSION['email'])) {
+    header("Location: pistas.php");
+    exit();
+}
+
+// Mostrar mensaje de error si existe
+if (isset($_GET['error'])) {
+    $error = htmlspecialchars($_GET['error']);
+    echo "<script>
+        alert('$error');
+        // Limpiar el parámetro de error de la URL
+        if (history.replaceState) {
+            const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            history.replaceState(null, '', newUrl);
+        }
+    </script>";
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +41,7 @@ $result = $conn->query($sql);
     <script src="jquery/jquery-3.7.1.min.js"></script>
     <script src="miscript.js"></script>
 </head>
+
 <body class="bg-dark text-white">
     <!-- Header -->
     <header class="bg-dark text-light w-100">
@@ -30,7 +51,8 @@ $result = $conn->query($sql);
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -39,7 +61,8 @@ $result = $conn->query($sql);
                             <a href="index.php" class="nav-link text-light">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i
+                                    class="bi bi-facebook"></i></a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link text-light"><i class="bi bi-twitter"></i></a>
@@ -48,7 +71,8 @@ $result = $conn->query($sql);
                             <a href="" class="nav-link text-light"><i class="bi bi-instagram"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                            <a href="#" class="nav-link text-light" data-bs-toggle="modal"
+                                data-bs-target="#loginModal"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -64,7 +88,8 @@ $result = $conn->query($sql);
 
                 <!-- Imagen circular y contenido de la pista -->
                 <div class="col-3 position-relative">
-                    <img class="imagenDescubre" src="<?php echo $pista['imagen']; ?>" alt="Imagen de <?php echo htmlspecialchars($pista['titulo']); ?>">
+                    <img class="imagenDescubre" src="<?php echo $pista['imagen']; ?>"
+                        alt="Imagen de <?php echo htmlspecialchars($pista['titulo']); ?>">
                 </div>
                 <div class="col-6 text-white">
                     <h4 class="fw-bold"><?php echo htmlspecialchars($pista['titulo']); ?></h4>
@@ -72,11 +97,12 @@ $result = $conn->query($sql);
                     <p>Precio Base: <?php echo htmlspecialchars($pista['precio_base']); ?> €/hora</p>
                     <p><?php echo htmlspecialchars($pista['descripcion']); ?></p>
                 </div>
-                
+
                 <!-- Botón "Más información" -->
                 <div class="col-3 position-relative">
                     <a href="detalle_pista.php?id=<?php echo $pista['id']; ?>">
-                        <button class="btn border-outline-rojo rounded-pill position-absolute top-50 translate-middle-y border-0">
+                        <button
+                            class="btn border-outline-rojo rounded-pill position-absolute top-50 translate-middle-y border-0">
                             Más información
                         </button>
                     </a>
@@ -112,7 +138,8 @@ $result = $conn->query($sql);
                         <button type="submit" name="login" class="btn btn-primary w-100">Entrar</button>
                     </form>
                     <p class="text-center mt-3">
-                        ¿Aún no tienes cuenta? <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#registroModal" data-bs-dismiss="modal">Regístrate aquí</a>
+                        ¿Aún no tienes cuenta? <a href="#" class="text-primary" data-bs-toggle="modal"
+                            data-bs-target="#registroModal" data-bs-dismiss="modal">Regístrate aquí</a>
                     </p>
                 </div>
             </div>
@@ -120,7 +147,8 @@ $result = $conn->query($sql);
     </section>
 
     <!-- Modal de Registro -->
-    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+    <section class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -128,7 +156,8 @@ $result = $conn->query($sql);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formRegistro">
+                    <form id="formRegistro" method="POST" action="procesar_registro.php">
+                        <input type="hidden" name="source" value="pista"> <!-- Identificador de la página -->
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
                             <input type="text" id="nombre" name="nombre" class="form-control" required>
@@ -154,17 +183,18 @@ $result = $conn->query($sql);
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-dark text-light p-3 mt-auto w-100">
         <div class="container">
             <div class="row text-center text-lg-center">
-                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0" >
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40"> Ayuntamiento de Puebla del Prior
+                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
                     <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
@@ -177,4 +207,5 @@ $result = $conn->query($sql);
 
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

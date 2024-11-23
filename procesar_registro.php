@@ -9,6 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefono = $_POST['telefono'];
     $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
 
+    // Determinar la página de origen
+    $source = isset($_POST['source']) ? $_POST['source'] : 'index';
+    $redirectPage = ($source === 'pista') ? 'pista.php' : 'index.php';
+
     // Verificar si el correo ya está registrado
     $sql = "SELECT * FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
@@ -17,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Redirigir a index.php con el mensaje de error
-        header("Location: index.php?error=" . urlencode("El email ya está registrado."));
+        // Redirigir a la página de origen con el mensaje de error
+        header("Location: $redirectPage?error=" . urlencode("El email ya está registrado."));
         exit();
     } else {
         // Insertar el nuevo usuario en la base de datos
@@ -39,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         } else {
             // Enviar mensaje de error en caso de fallo al registrar
-            header("Location: index.php?error=" . urlencode("Error al registrar el usuario."));
+            header("Location: $redirectPage?error=" . urlencode("Error al registrar el usuario."));
             exit();
         }
     }

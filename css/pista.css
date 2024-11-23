@@ -69,6 +69,34 @@
     color: #fff;
 }
 
+/* Footer */
+footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto; /* Empuja el footer hacia el final */
+}
+
+footer img {
+    height: 60px;
+    width: 60px;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 1rem;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ddd;
+}
+
 /* Estilos para los elementos en pantallas pequeñas */
 @media (max-width: 768px) {
     .col-3, .col-6 {

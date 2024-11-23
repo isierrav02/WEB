@@ -17,6 +17,7 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +27,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/miestilo.css" />
 </head>
+
 <body class="full-background d-flex flex-column min-vh-100">
     <!-- Header -->
     <header class="bg-dark text-light w-100">
@@ -35,7 +37,8 @@ $result = $conn->query($sql);
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -59,7 +62,9 @@ $result = $conn->query($sql);
                 <div class="col">
                     <div class="card h-100 bg-dark text-light pista-card">
                         <div class="pista-img-container">
-                            <img src="<?php echo htmlspecialchars($pista['imagen']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($pista['nombre']); ?>" style="cursor: pointer;" onclick="abrirModalReserva(<?php echo $pista['id']; ?>, <?php echo $pista['precio_base']; ?>)">
+                            <img src="<?php echo htmlspecialchars($pista['imagen']); ?>" class="card-img-top"
+                                alt="<?php echo htmlspecialchars($pista['nombre']); ?>" style="cursor: pointer;"
+                                onclick="abrirModalReserva(<?php echo $pista['id']; ?>, <?php echo $pista['precio_base']; ?>)">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($pista['nombre']); ?></h5>
@@ -107,11 +112,12 @@ $result = $conn->query($sql);
     <footer class="bg-dark text-light p-3 mt-auto w-100">
         <div class="container">
             <div class="row text-center text-lg-center">
-                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0" >
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
                     <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40"> Ayuntamiento de Puebla del Prior
+                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
                     <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
@@ -125,4 +131,5 @@ $result = $conn->query($sql);
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="miscript.js"></script>
 </body>
+
 </html>

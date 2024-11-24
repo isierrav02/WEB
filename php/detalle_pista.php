@@ -22,21 +22,24 @@ if (isset($_GET['id'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la Pista | Publipista</title>
-    <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
+    <link rel="icon" href="../img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/miestilo.css" />
+    <link rel="stylesheet" href="../css/miestilo.css" />
 </head>
+
 <body class="bg-dark text-white">
     <div class="container mt-5 p-4 bg-secondary rounded shadow">
         <?php if ($pista): ?>
             <!-- Título e Imagen de la Pista -->
             <div class="text-center mb-4">
                 <h1 class="display-5 fw-bold"><?php echo htmlspecialchars($pista['nombre']); ?></h1>
-                <img src="<?php echo htmlspecialchars($pista['imagen']); ?>" class="img-fluid rounded mt-3 shadow" alt="Imagen de <?php echo htmlspecialchars($pista['nombre']); ?>" style="max-width: 80%; height: auto;">
+                <img src="../<?php echo htmlspecialchars($pista['imagen']); ?>" class="img-fluid rounded mt-3 shadow"
+                    alt="Imagen de <?php echo htmlspecialchars($pista['nombre']); ?>" style="max-width: 80%; height: auto;">
             </div>
 
             <!-- Detalles de la Pista -->
@@ -72,4 +75,5 @@ if (isset($_GET['id'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

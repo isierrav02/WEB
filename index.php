@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'publipistaBD.php';
+include "php/publipistaBD.php";
 
 if (isset($_SESSION['email'])) {
-    header("Location: pistas.php");
+    header("Location: php/pistas.php");
     exit();
 }
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user = $result->fetch_assoc();
             if (password_verify($contrasena, $user['contrasena'])) {
                 $_SESSION['email'] = $email;
-                header("Location: pistas.php");
+                header("Location: php/pistas.php");
                 exit();
             } else {
                 $error = "Contraseña incorrecta.";
@@ -83,7 +83,7 @@ $result = $conn->query($sql);
                             <a href="#" class="nav-link text-light">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="pista.php" class="nav-link text-light">Pistas</a>
+                            <a href="php/pista.php" class="nav-link text-light">Pistas</a>
                         </li>
                         <li class="nav-item">
                             <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i
@@ -207,7 +207,7 @@ $result = $conn->query($sql);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formRegistro" method="POST" action="procesar_registro.php">
+                    <form id="formRegistro" method="POST" action="php/procesar_registro.php">
                         <input type="hidden" name="source" value="index"> <!-- Identificador de la página -->
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
@@ -248,9 +248,9 @@ $result = $conn->query($sql);
                     Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
-                    <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
-                    <a href="politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
-                    <a href="terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
+                    <a href="html/politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
+                    <a href="html/politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
+                    <a href="html/terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
                 </div>
             </div>
         </div>

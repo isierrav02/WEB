@@ -3,7 +3,7 @@ session_start();
 include 'publipistaBD.php';
 
 if (!isset($_SESSION['email'])) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 
@@ -22,10 +22,10 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pistas | Publipista</title>
-    <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
+    <link rel="icon" href="../img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/miestilo.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/miestilo.css" />
 </head>
 
 <body class="full-background d-flex flex-column min-vh-100">
@@ -34,7 +34,7 @@ $result = $conn->query($sql);
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a href="pistas.php" class="navbar-brand d-flex align-items-center">
-                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -62,7 +62,7 @@ $result = $conn->query($sql);
                 <div class="col">
                     <div class="card h-100 bg-dark text-light pista-card">
                         <div class="pista-img-container">
-                            <img src="<?php echo htmlspecialchars($pista['imagen']); ?>" class="card-img-top"
+                            <img src="../<?php echo htmlspecialchars($pista['imagen']); ?>" class="card-img-top"
                                 alt="<?php echo htmlspecialchars($pista['nombre']); ?>" style="cursor: pointer;"
                                 onclick="abrirModalReserva(<?php echo $pista['id']; ?>, <?php echo $pista['precio_base']; ?>)">
                         </div>
@@ -113,23 +113,24 @@ $result = $conn->query($sql);
         <div class="container">
             <div class="row text-center text-lg-center">
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    <img src="../img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
                     Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
-                    <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
-                    <a href="politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
-                    <a href="terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
+                    <a href="../html/politica_privacidad.html" class="text-light d-block mb-3">Política de
+                        Privacidad</a>
+                    <a href="../html/politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
+                    <a href="../html/terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="miscript.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../miscript.js"></script>
 </body>
 
 </html>

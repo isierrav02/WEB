@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Determinar la página de origen
     $source = isset($_POST['source']) ? $_POST['source'] : 'index';
-    $redirectPage = ($source === 'pista') ? 'pista.php' : 'index.php';
+    $redirectPage = ($source === 'pista') ? 'pista.php' : '../index.php';
 
     // Verificar si el correo ya está registrado
     $sql = "SELECT * FROM usuarios WHERE email = ?";
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $email;
 
             // Guardar datos en el archivo de texto usuarios.txt
-            $file_path = 'usuarios.txt';
+            $file_path = '../usuarios.txt';
             $user_data = "$nombre,$apellidos,$email,$telefono" . PHP_EOL;
             file_put_contents($file_path, $user_data, FILE_APPEND);
 

@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     if ($stmt->execute()) {
-        header("Location: pistas.php");
+        header("Location: mis_reservas.php");
+        exit();
     } else {
         echo "Error al eliminar la reserva.";
     }
 }
-?>

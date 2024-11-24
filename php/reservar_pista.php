@@ -4,7 +4,7 @@ include 'publipistaBD.php';
 
 // Asegurarse de que el usuario está logueado
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 

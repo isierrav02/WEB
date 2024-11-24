@@ -34,12 +34,12 @@ if (isset($_GET['error'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pistas | Publipista</title>
-    <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
+    <link rel="icon" href="../img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/pista.css" />
-    <script src="jquery/jquery-3.7.1.min.js"></script>
-    <script src="miscript.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/pista.css" />
+    <script src="../jquery/jquery-3.7.1.min.js"></script>
+    <script src="../miscript.js"></script>
 </head>
 
 <body class="bg-dark text-white">
@@ -47,8 +47,8 @@ if (isset($_GET['error'])) {
     <header class="bg-dark text-light w-100">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a href="index.php" class="navbar-brand d-flex align-items-center">
-                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
+                <a href="../index.php" class="navbar-brand d-flex align-items-center">
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -58,7 +58,7 @@ if (isset($_GET['error'])) {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="index.php" class="nav-link text-light">Inicio</a>
+                            <a href="../index.php" class="nav-link text-light">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a href="https://www.facebook.com/ayuntamiento2023" class="nav-link text-light"><i
@@ -84,11 +84,11 @@ if (isset($_GET['error'])) {
         <?php while ($pista = $result->fetch_assoc()): ?>
             <div class="row position-relative mb-4">
                 <!-- Fondo difuminado de la imagen -->
-                <div class="imagenDifuminada" style="background-image: url('<?php echo $pista['imagen']; ?>');"></div>
+                <div class="imagenDifuminada" style="background-image: url('../<?php echo $pista['imagen']; ?>');"></div>
 
                 <!-- Imagen circular y contenido de la pista -->
                 <div class="col-3 position-relative">
-                    <img class="imagenDescubre" src="<?php echo $pista['imagen']; ?>"
+                    <img class="imagenDescubre" src="../<?php echo $pista['imagen']; ?>"
                         alt="Imagen de <?php echo htmlspecialchars($pista['titulo']); ?>">
                 </div>
                 <div class="col-6 text-white">
@@ -126,7 +126,7 @@ if (isset($_GET['error'])) {
                         </div>
                     <?php endif; ?>
 
-                    <form action="index.php" method="post">
+                    <form action="../index.php" method="post">
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo Electrónico:</label>
                             <input type="email" id="email" name="email" class="form-control" required>
@@ -190,22 +190,23 @@ if (isset($_GET['error'])) {
         <div class="container">
             <div class="row text-center text-lg-center">
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    <img src="../img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
                     Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
-                    <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
-                    <a href="politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
-                    <a href="terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
+                    <a href="../html/politica_privacidad.html" class="text-light d-block mb-3">Política de
+                        Privacidad</a>
+                    <a href="../html/politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
+                    <a href="../html/terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

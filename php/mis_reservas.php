@@ -1,19 +1,26 @@
 <?php
 session_start();
 include 'publipistaBD.php';
+require '../PHPMailer/Exception.php';
+require '../PHPMailer/PHPMailer.php';
+require '../PHPMailer/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Asegurarse de que el usuario está logueado
 if (!isset($_SESSION['email'])) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 
 // Obtener el ID del usuario logueado a partir del email
 $email = $conn->real_escape_string($_SESSION['email']);
-$sql_usuario = "SELECT id FROM usuarios WHERE email = '$email'";
+$sql_usuario = "SELECT id, nombre FROM usuarios WHERE email = '$email'";
 $result = $conn->query($sql_usuario);
 $usuario = $result->fetch_assoc();
 $usuario_id = $usuario['id'];
+$nombre_usuario = $usuario['nombre'];
 
 // Limpiar automáticamente las reservas pasadas
 $fecha_hora_actual = date("Y-m-d H:i:s");
@@ -70,6 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
         exit();
     }
 
+    // Obtener el nombre de la pista
+    $sql_pista = "SELECT nombre FROM pistas WHERE id = $pista_id";
+    $result_pista = $conn->query($sql_pista);
+    $pista = $result_pista->fetch_assoc();
+    $nombre_pista = $pista['nombre'];
+
     // Calcular el precio total en base a la duración de la reserva
     $inicio = new DateTime($hora_inicio);
     $fin = new DateTime($hora_fin);
@@ -83,12 +96,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
                      VALUES ($usuario_id, $pista_id, '$fecha_reserva', '$hora_inicio', '$hora_fin', $precio_total, NOW())";
 
     if ($conn->query($sql_insertar) === TRUE) {
+        // Configurar y enviar el correo de confirmación usando PHPMailer
+        $mail = new PHPMailer(true);
+        try {
+            // Configuración del servidor SMTP de Gmail
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'isierrav02@educarex.es'; // La dirección de correo de Gmail
+            $mail->Password = 'mknq lkjz pfpp jzjm';        // La contraseña desde Gmail
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            // Configuración del correo
+            $mail->setFrom('no-reply@publipista.com', 'Publipista');
+            $mail->addAddress($email, $nombre_usuario);
+            $mail->Subject = 'Confirmación de Reserva - Publipista';
+
+            // Establecer la codificación y el cuerpo en HTML para soportar caracteres especiales
+            $mail->CharSet = 'UTF-8';
+            $mail->isHTML(true);
+            $mail->Body = "Hola $nombre_usuario<br><br>Tu reserva en la <strong>$nombre_pista</strong> se ha realizado correctamente.<br><br>"
+                . "Detalles de la reserva:<br>"
+                . "<strong>Pista:</strong> $nombre_pista<br>"
+                . "<strong>Fecha:</strong> $fecha_reserva<br>"
+                . "<strong>Hora de inicio:</strong> $hora_inicio h<br>"
+                . "<strong>Hora de fin:</strong> $hora_fin h<br>"
+                . "<strong>Precio total:</strong> " . number_format($precio_total, 2) . " €<br><br>"
+                . "Gracias por usar Publipista.<br><br>Saludos,<br>El equipo de Publipista<br><br>"
+                . "<small><em>Este correo ha sido generado automáticamente. Por favor, no responda a este mensaje.</em></small>";
+
+            // Enviar el correo
+            $mail->send();
+
+        } catch (Exception $e) {
+            echo "Error al enviar el correo de confirmación: {$mail->ErrorInfo}";
+        }
+
+        // Redirigir a mis_reservas.php
         header("Location: mis_reservas.php");
         exit();
     } else {
         echo "Error al realizar la reserva: " . $conn->error;
     }
 }
+
+// Consulta para obtener todas las reservas del usuario conectado
+$sql_reservas = "SELECT r.id, p.nombre AS pista, r.fecha_reserva, r.hora_inicio, r.hora_fin, r.precio_total 
+                 FROM reservas r
+                 JOIN pistas p ON r.pista_id = p.id
+                 WHERE r.usuario_id = $usuario_id
+                 ORDER BY r.fecha_reserva DESC, r.hora_inicio DESC";
+$result_reservas = $conn->query($sql_reservas);
+
 ?>
 
 <!DOCTYPE html>
@@ -98,10 +158,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Reservas | Publipista</title>
-    <link rel="icon" href="img/favicon_Publipista.webp" type="image/x-icon">
+    <link rel="icon" href="../img/favicon_Publipista.webp" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/miestilo.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/miestilo.css" />
 </head>
 
 <body class="full-background d-flex flex-column min-vh-100">
@@ -110,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a href="mis_reservas.php" class="navbar-brand d-flex align-items-center">
-                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40" class="me-2">
                     <h1 class="h5 m-0">Publipista</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -120,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="index.php" class="nav-link text-light">Inicio</a>
+                            <a href="../index.php" class="nav-link text-light">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a href="pistas.php" class="nav-link text-light">Reservar Pistas</a>
@@ -144,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
         <!-- Tabla de reservas del usuario -->
         <div class="card bg-secondary text-light mx-auto p-4 shadow-lg" style="max-width: 900px;">
             <h2 class="card-title text-center mb-4">Historial de Reservas</h2>
-            <?php if ($result->num_rows > 0): ?>
+            <?php if ($result_reservas->num_rows > 0): ?>
                 <div class="table-responsive">
                     <table class="table table-dark table-striped table-hover">
                         <thead>
@@ -157,13 +217,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($row = $result->fetch_assoc()): ?>
+                            <?php while ($row = $result_reservas->fetch_assoc()): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($row['pista']); ?></td>
                                     <td><?php echo htmlspecialchars($row['fecha_reserva']); ?></td>
                                     <td><?php echo htmlspecialchars($row['hora_inicio']); ?></td>
                                     <td><?php echo htmlspecialchars($row['hora_fin']); ?></td>
                                     <td><?php echo number_format($row['precio_total'], 2); ?> €</td>
+                                    <td>
+                                        <!-- Formulario para eliminar la reserva -->
+                                        <form action="eliminar.php" method="POST"
+                                            onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta reserva?');">
+                                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
@@ -184,22 +252,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
         <div class="container">
             <div class="row text-center text-lg-center">
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
                 </div>
                 <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
-                    <img src="img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    <img src="../img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
                     Ayuntamiento de Puebla del Prior
                 </div>
                 <div class="col-lg-4 h5 m-0">
-                    <a href="politica_privacidad.html" class="text-light d-block mb-3">Política de Privacidad</a>
-                    <a href="politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
-                    <a href="terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
+                    <a href="../html/politica_privacidad.html" class="text-light d-block mb-3">Política de
+                        Privacidad</a>
+                    <a href="../html/politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
+                    <a href="../html/terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

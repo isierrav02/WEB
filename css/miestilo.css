@@ -1,6 +1,6 @@
 /* Fondo de pantalla */
 .full-background {
-    background-image: url('../../img/Publipista.webp'); 
+    background-image: url('../img/Publipista.webp'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

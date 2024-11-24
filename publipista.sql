@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2024 a las 18:39:22
+-- Tiempo de generación: 24-11-2024 a las 21:40:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -95,13 +95,6 @@ CREATE TABLE `reservas` (
   `precio_total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `reservas`
---
-
-INSERT INTO `reservas` (`id`, `usuario_id`, `pista_id`, `fecha_reserva`, `hora_inicio`, `hora_fin`, `fecha_creacion`, `precio_total`) VALUES
-(18, 1, 1, '2024-11-22', '18:00:00', '19:30:00', '2024-11-18 23:45:46', 22.50);
-
 -- --------------------------------------------------------
 
 --
@@ -123,7 +116,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `telefono`, `contrasena`, `fecha_registro`) VALUES
-(1, 'Ismael', 'Sierra Vega', 'isierrav02@educarex.es', '654102515', '$2y$10$8.hqcmOEg.wjayA1K0HJKeW/KZwJEIv3q1u.oKjSL85IXx0FI1eTe', '2024-10-25 16:47:10');
+(1, 'Ismael', 'Sierra Vega', 'isierrav02@educarex.es', '654102515', '$2y$10$8.hqcmOEg.wjayA1K0HJKeW/KZwJEIv3q1u.oKjSL85IXx0FI1eTe', '2024-10-25 16:47:10'),
+(13, 'Ana', 'Vega García', 'i301003@hotmail.com', '654686800', '$2y$10$gepSBNbFRHHhZVkEejuMk.5/EUSosHseJvb6O7mt.ChGH7HRuL7uy', '2024-11-23 14:10:21'),
+(14, 'Fernando', 'Pavón Valle', 'pavonvallefernando@gmail.com', '677386570', '$2y$10$QwrQizotxQ2y5qqUbllhq.zo6/jTSBShtCLDiGcsG7.c8aX1ccZSm', '2024-11-24 20:32:04');
 
 --
 -- Índices para tablas volcadas
@@ -177,13 +172,13 @@ ALTER TABLE `pistas`
 -- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

@@ -225,6 +225,13 @@ $result_reservas = $conn->query($sql_reservas);
                                     <td><?php echo htmlspecialchars($row['hora_fin']); ?></td>
                                     <td><?php echo number_format($row['precio_total'], 2); ?> €</td>
                                     <td>
+                                        <!-- Botón para abrir el modal de edición -->
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" 
+                                        data-bs-target="#editarReservaModal" onclick="cargarReserva(<?php echo $row['id']; ?>)">
+                                            Editar
+                                        </button>
+                                    </td>
+                                    <td>
                                         <!-- Formulario para eliminar la reserva -->
                                         <form action="eliminar.php" method="POST"
                                             onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta reserva?');">
@@ -243,6 +250,35 @@ $result_reservas = $conn->query($sql_reservas);
             <div class="mt-4 text-center">
                 <a href="pistas.php" class="btn btn-outline-light">Volver a Reservas</a>
                 <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+        <!-- Modal para Editar Reserva -->
+        <div class="modal fade" id="editarReservaModal" tabindex="-1" aria-labelledby="editarReservaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarReservaLabel">Editar Reserva</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarReserva" action="editar_reserva.php" method="POST">
+                            <input type="hidden" name="reserva_id" id="reserva_id">
+                            <div class="mb-3">
+                                <label for="fecha_reserva" class="form-label">Fecha de Reserva:</label>
+                                <input type="date" id="editar_fecha_reserva" name="fecha_reserva" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hora_inicio" class="form-label">Hora de Inicio:</label>
+                                <input type="time" id="editar_hora_inicio" name="hora_inicio" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hora_fin" class="form-label">Hora de Fin:</label>
+                                <input type="time" id="editar_hora_fin" name="hora_fin" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -270,5 +306,20 @@ $result_reservas = $conn->query($sql_reservas);
 
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+function cargarReserva(reservaId) {
+    // Realizar una solicitud AJAX para obtener los datos de la reserva
+    fetch(`obtener_reserva.php?id=${reservaId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Asignar los valores a los campos del modal
+            document.getElementById('reserva_id').value = data.id;
+            document.getElementById('editar_fecha_reserva').value = data.fecha_reserva;
+            document.getElementById('editar_hora_inicio').value = data.hora_inicio;
+            document.getElementById('editar_hora_fin').value = data.hora_fin;
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
 
 </html>

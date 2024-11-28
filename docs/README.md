@@ -20,28 +20,28 @@
 
 ## Índice
 
-1. [Introducción](#introducción)
-2. [Objetivo del proyecto](#objetivo-del-proyecto)
-3. [Justificación del proyecto](#justificación-del-proyecto)
-    - [Análisis del mercado](#análisis-del-mercado)
-    - [Vinculación de contenidos vistos en el ciclo formativo](#vinculación-de-contenidos-vistos-en-el-ciclo-formativo)
+1. [Introducción](#1-introducción)
+2. [Objetivo del proyecto](#2-objetivo-del-proyecto)
+3. [Justificación del proyecto](#3-justificación-del-proyecto)
+    - [Análisis del mercado](#31-análisis-del-mercado)
+    - [Vinculación de contenidos vistos en el ciclo formativo](#32-vinculación-de-contenidos-vistos-en-el-ciclo-formativo)
 4. [Recursos utilizados](#4-recursos-utilizados)
-   - [Entornos de desarrollo](#entornos-de-desarrollo)
-   - [Lenguajes de programación](#lenguajes-de-programación)
-   - [Utilidades](#utilidades)
+   - [Entornos de desarrollo](#41-entornos-de-desarrollo)
+   - [Lenguajes de programación](#42-lenguajes-de-programación)
+   - [Utilidades](#43-utilidades)
 5. [Tecnologías de desarrollo](#5-tecnologías-de-desarrollo)
 6. [Diseño del proyecto](#6-diseño-del-proyecto)
-    - [Diseño de la base de datos](#diseño-de-la-base-de-datos)
-        - [Diagrama E/R](#diagrama-er)
-        - [Modelo relacional](#modelo-relacional)
-    - [Carga de datos inicial](#carga-de-datos-inicial)
-    - [Usuarios creados para pruebas](#usuarios-creados-para-pruebas)
-7. [Lógica/codificación del proyecto](#7-lógica-codificación-del-proyecto)
-   - [Principales procesos](#principales-procesos)
-   - [Aspectos relevantes de la implementación](#aspectos-relevantes-de-la-implementación)
-     - [Validación de datos](#validación-de-datos)
-     - [Control de accesos](#control-de-accesos)
-     - [Sistemas de carpetas](#sistemas-de-carpetas)
+    - [Diseño de la base de datos](#61-diseño-de-la-base-de-datos)
+        - Diagrama E/R
+        - Modelo relacional
+    - [Carga de datos inicial](#62-carga-de-datos-inicial)
+    - [Usuarios creados para pruebas](#63-usuarios-creados-para-pruebas)
+7. [Lógica/codificación del proyecto](#7-lógicacodificación-del-proyecto)
+   - [Principales procesos](#71-principales-procesos)
+   - [Aspectos relevantes de la implementación](#72aspectos-relevantes-de-la-implementación)
+     - Validación de datos
+     - Control de accesos
+     - Sistemas de carpetas
 
 <hr>
 

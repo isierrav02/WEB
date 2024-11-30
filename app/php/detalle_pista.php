@@ -32,38 +32,38 @@ if (isset($_GET['id'])) {
     <link rel="stylesheet" href="../css/miestilo.css" />
 </head>
 
-<body class="bg-dark text-white">
+<body class="bg-dark text-white d-flex flex-column min-vh-100">
     <div class="container mt-5 p-4 bg-secondary rounded shadow">
         <?php if ($pista): ?>
-            <!-- Título e Imagen de la Pista -->
+            <!-- Imagen de la Pista -->
             <div class="text-center mb-4">
-                <h1 class="display-5 fw-bold"><?php echo htmlspecialchars($pista['nombre']); ?></h1>
-                <img src="../<?php echo htmlspecialchars($pista['imagen']); ?>" class="img-fluid rounded mt-3 shadow"
-                    alt="Imagen de <?php echo htmlspecialchars($pista['nombre']); ?>" style="max-width: 80%; height: auto;">
+                <img src="../<?php echo htmlspecialchars($pista['imagen']); ?>" class="imagen-uniforme shadow"
+                    alt="Imagen de <?php echo htmlspecialchars($pista['nombre']); ?>">
             </div>
 
             <!-- Detalles de la Pista -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h4 class="fw-bold">Tipo</h4>
-                    <p><?php echo htmlspecialchars($pista['tipo']); ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h4 class="fw-bold">Ubicación</h4>
-                    <p><?php echo htmlspecialchars($pista['ubicacion']); ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h4 class="fw-bold">Precio Base</h4>
-                    <p><?php echo htmlspecialchars($pista['precio_base']); ?> €/hora</p>
-                </div>
-                <div class="col-md-12">
-                    <h4 class="fw-bold">Descripción</h4>
-                    <p><?php echo htmlspecialchars($pista['descripcion']); ?></p>
+            <div class="card bg-dark text-light shadow-sm p-4">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4 fw-bold"><?php echo htmlspecialchars($pista['nombre']); ?></h1>
+                    <ul class="list-group list-group-flush bg-dark">
+                        <li class="list-group-item bg-dark text-white">
+                            <strong>Tipo:</strong> <?php echo htmlspecialchars($pista['tipo']); ?>
+                        </li>
+                        <li class="list-group-item bg-dark text-white">
+                            <strong>Ubicación:</strong> <?php echo htmlspecialchars($pista['ubicacion']); ?>
+                        </li>
+                        <li class="list-group-item bg-dark text-white">
+                            <strong>Precio Base:</strong> <?php echo htmlspecialchars($pista['precio_base']); ?> €/hora
+                        </li>
+                        <li class="list-group-item bg-dark text-white">
+                            <strong>Descripción:</strong> <?php echo htmlspecialchars($pista['descripcion']); ?>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             <!-- Botón Volver -->
-            <div class="text-center">
+            <div class="text-center mt-4">
                 <a href="pista.php" class="btn btn-outline-light rounded-pill">
                     <i class="bi bi-arrow-left-circle"></i> Volver a Pistas
                 </a>
@@ -72,6 +72,27 @@ if (isset($_GET['id'])) {
             <p class="text-center">No se encontraron detalles para esta pista.</p>
         <?php endif; ?>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light p-3 mt-auto w-100">
+        <div class="container">
+            <div class="row text-center text-lg-center">
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
+                    <img src="../img/Publipista.webp" alt="Logo" width="40" height="40"> Reservas de pistas deportivas
+                </div>
+                <div class="col-lg-4 mb-3 mb-lg-0 h5 m-0">
+                    <img src="../img/escudo_puebla-del-prior.jpg" alt="Imagen central" width="100" height="40">
+                    Ayuntamiento de Puebla del Prior
+                </div>
+                <div class="col-lg-4 h5 m-0">
+                    <a href="../html/politica_privacidad.html" class="text-light d-block mb-3">Política de
+                        Privacidad</a>
+                    <a href="../html/politica_cookies.html" class="text-light d-block mb-3">Política de Cookies</a>
+                    <a href="../html/terminos_condiciones.html" class="text-light d-block">Términos y Condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

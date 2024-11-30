@@ -99,6 +99,13 @@
     border-radius: 8px;
 }
 
+.imagen-uniforme {
+    width: 100%; /* Ancho máximo permitido por el contenedor */
+    height: 400px; /* Altura fija */
+    object-fit: cover; /* Ajusta la imagen sin distorsionarla */
+    border-radius: 8px; /* Esquinas redondeadas opcionales */
+}
+
 /* Footer */
 footer {
     background-color: rgba(0, 0, 0, 0.8);

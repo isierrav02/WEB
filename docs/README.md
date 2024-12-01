@@ -14,7 +14,7 @@
 
 **Fecha de presentación:** 12/2024
 
-**Repositorio:** <a href="https://github.com/isierrav02/WEB" target="_blank"> GitHub </a>
+**Repositorio:** [Github](https://github.com/isierrav02/WEB)
 
 <hr>
 
@@ -42,6 +42,8 @@
      - Validación de datos
      - Control de accesos
      - Sistemas de carpetas
+8. [Conclusiones y aspectos a mejorar](#8-conclusiones-y-aspectos-a-mejorar)
+9. [Bibliografía](#9-bibliografía)
 
 <hr>
 
@@ -146,7 +148,7 @@ He creado 2 usuarios para comprobar el funcionamiento de los correos automatizad
 
 - **Registro de usuarios nuevos**: Los usuarios se registran a través de un formulario, en el cual indican 4 datos obligatorios (nombre, apellidos, correo electrónico, teléfono y contraseña) que se guardan tanto en la base de datos como en [usuarios.txt](../app/usuarios.txt).
 
-- **Página de información de las pistas**: Esta página muestra las pistas a reservar en una pequeña imagen y con su información al lado, más un botón que te lleva a otra página donde se centra exclusivamente en esa pista para darte su información y tener su foto en grande.
+- **Página de información de las pistas**: Esta página muestra las pistas a reservar en una pequeña imagen y con su información al lado, más un botón que te lleva a otra página donde se centra exclusivamente en esa pista para darte su información y tener su foto en grande (las ubicaciones son inventadas, los precios puestos al azar y las imágenes sacadas de [freepik](https://www.freepik.es/)).
 
 - **Página de reservas de pistas**: Esta página muestra en tarjetas las 8 pistas disponibles, apareciendo tanto la imagen como el precio/hora de reserva de cada pista.  
   Si pinchamos en cualquier tarjeta, se abre un modal para la reserva, donde te pide fecha de reserva (nunca podrá ser anterior a la fecha actual) y hora de inicio y de final de la reserva (deberá ser mínimo una hora y en intervalos de 30 minutos).  
@@ -165,6 +167,7 @@ He creado 2 usuarios para comprobar el funcionamiento de los correos automatizad
   - **Rol y permisos**: Nos aseguramos que una persona que no inicia sesión no pueda acceder a la funcionalidad de la aplicación.
   - **Autenticación**: Mediante el formulario de login en el que preguntamos gmail y contraseña, nos aseguramos de que el usuario esté en el sistema y pueda acceder a la aplicación con sus correspondientes permisos.
 - `Sistemas de carpetas`
+
   ```
   WEB
   ├───app
@@ -182,5 +185,28 @@ He creado 2 usuarios para comprobar el funcionamiento de los correos automatizad
   │   ├───php
   ├───docs
   │   └───img
-  ├───mysql
+  └───mysql
   ```
+
+  - **app**
+    - **css**: Contiene los estilos asociados a la aplicación.
+    - **html**: Contiene las páginas del footer.
+    - **img**: Contiene las imágenes de la aplicación.
+    - **js**: Contiene los archivos Javascript para la aplicación.
+    - **php**: Contiene las diferentes páginas por donde se podrá navegar en la aplicacion.
+    - **phpMailer**: Biblioteca necesaria para realizar los envíos de correo automatizados.
+  - **docker**: Carpeta y subcarpetas necesarias para el docker (contenedor e imágenes).
+  - **docs**: Carpeta con este documento y con el manual de usuario (documentación del proyecto).
+  - **mysql**: Carpeta con el fichero .sql de la base de datos.
+
+### 8. Conclusiones y aspectos a mejorar
+
+Ha sido un proyecto duro y difícil de desarrollar, debido al poco tiempo que se dispone para hacerlo en periodo de prácticas y a las complicaciones que se van presentando al mismo tiempo.  
+El proyecto podría ser bastante más completo con un poco más de tiempo, ya que no me ha dado tiempo a realizar algunas cosas que tenía pensadas implementar en el proyecto, como por ejemplo el usuario `admin` al loguearse no vea lo mismo que el resto de usuarios, sino todas las reservas de todos los usuarios, o que los usuarios tengan la opción de ver sus reservas anteriores, y si haces alguna reserva de manera usual tener un botón como para repetirla. También mi intención era que aparte de recibir un correo automatizado al realizar una reserva, que te llegue un mensaje al teléfono, pero por falta de tiempo y de no saber cómo hacerlo no he podido implementarlo.
+
+### 9. Bibliografía
+
+- [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [ChatGPT](https://chatgpt.com/)
+- [W3schools](https://www.w3schools.com/php/default.asp)
+- [Freepik](https://www.freepik.es/)

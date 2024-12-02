@@ -103,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pista_id'], $_POST['fe
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'isierrav02@educarex.es'; // La dirección de correo de Gmail
-            $mail->Password = 'mknq lkjz pfpp jzjm';        // La contraseña desde Gmail
+            $mail->Username = 'ismaelsierravega2003@gmail.com'; // La dirección de correo de Gmail
+            $mail->Password = 'gtnr lwci mtaf vmza';        // La contraseña desde Gmail
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
